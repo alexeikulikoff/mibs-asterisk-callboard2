@@ -326,7 +326,9 @@ public class App extends JFrame{
 		logger.trace("Asterisk Callboard is  initialized: " + LocalDateTime.now());
 	}
 
+    public App() {
     	
+    }
 	public App( String file ) {
 		super();
 		init(file);
