@@ -80,17 +80,25 @@ public class Utils {
     	String queue = "SIP_" + destcallerIdnum;
     	
     	Jedis jedis = new Jedis(Utils.redisHost); 
+    	jedis.connect();
+		jedis.auth(Utils.redisPassword);
+    	
     	byte[] res = jedis.get(callerid.trim().getBytes());
     	if ((res != null) && (res.length >  0)) {
     		try {
     			channel.basicPublish("", queue, null, res);
     		} catch (Exception e) {
-    			System.out.println("Error publish :" + e.getMessage()); 
     			logger.error("Error public message to RabbitMQ queue: " + queue + " for callid: " + callerid);
     		}
     	
     	}else {
-    		System.out.println("No data found for callerid: "); 
+    		Patient patient = new Patient("","","",callerid);
+    		byte[] rc = SerializationUtils.serialize(patient);
+    		try {
+    			channel.basicPublish("", queue, null, rc);
+    		} catch (Exception e) {
+    			logger.error("Error public message to RabbitMQ queue: " + queue + " for callid: " + callerid);
+    		}
     		logger.error("No data found for callerid: "  + callerid);
     	}
     	
