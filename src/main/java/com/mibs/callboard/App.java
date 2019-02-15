@@ -5,6 +5,7 @@ package com.mibs.callboard;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -403,12 +404,12 @@ public class App extends JFrame{
 			setMaximumSize(DimMax);
 			setExtendedState(MAXIMIZED_BOTH);
 
-		/*	GraphicsDevice device =getGraphicsConfiguration().getDevice();
+			GraphicsDevice device =getGraphicsConfiguration().getDevice();
 		    boolean result = device.isFullScreenSupported();
 		    device.setFullScreenWindow(this); 
 		    
-		    System.out.println( result );
-		*/
+		
+		
 			
 		} catch (Exception e) {
 			logger.error("Can't start callboard connection: " + e.getMessage());
