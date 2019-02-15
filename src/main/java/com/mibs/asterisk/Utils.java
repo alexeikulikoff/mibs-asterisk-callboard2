@@ -40,6 +40,10 @@ public class Utils {
 	private static String redisUser;
 	private static String redisPassword;
 	
+	public static String getRedisPassword() {
+		return redisPassword;
+	}
+
 	private static Channel channel;
 	private static final Logger logger =  LoggerFactory.getLogger(Utils.class.getName());
 
@@ -69,7 +73,7 @@ public class Utils {
 			
 			redisHost = prop.getProperty("redis_host");
 			redisUser = prop.getProperty("redis_user");
-			redisPassword = prop.getProperty("redis_password");
+			redisPassword = prop.getProperty("redis_pssword");
 		
 		} catch (Exception e1) {
 			logger.debug("Configuration file: " + config + "  is not found!");
@@ -80,8 +84,7 @@ public class Utils {
     	String queue = "SIP_" + destcallerIdnum;
     	
     	Jedis jedis = new Jedis(Utils.redisHost); 
-    	jedis.connect();
-		jedis.auth(Utils.redisPassword);
+		jedis.auth(Utils.getRedisPassword());
     	
     	byte[] res = jedis.get(callerid.trim().getBytes());
     	if ((res != null) && (res.length >  0)) {
