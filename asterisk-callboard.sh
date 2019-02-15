@@ -25,9 +25,9 @@ YML="application.properties"
 CONFIG="/usr/local/etc/mibs-asterisk-callboard/"$YML
 
 INSTALL_DIR="/usr/local/bin/"
-JAR=$INSTALL_DIR"mibs-asterisk-callboard.jar"
+JAR=$INSTALL_DIR"asterisk-callboard.jar"
 
-PID="/var/run/mibs-asterisk-callboard.pid"
+PID="/var/run/asterisk-callboard.pid"
 
 LOG="/var/log/asterisk-callboard.log"
 

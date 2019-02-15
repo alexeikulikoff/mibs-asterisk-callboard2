@@ -2,7 +2,7 @@
 
 echo "Install Asterisk callboard... "
 
-JAR="mibs-asterisk-callboard.jar"
+JAR="asterisk-callboard.jar"
 YML="application.properties"
 
 
