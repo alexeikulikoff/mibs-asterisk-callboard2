@@ -20,6 +20,7 @@ import java.net.UnknownHostException;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.apache.commons.lang.SerializationUtils;
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.Logger;
 
 import org.slf4j.LoggerFactory;
@@ -70,7 +72,8 @@ public class App extends JFrame{
 	private Group parallelGroup;
 	private PanelWrapper panelWrapper;
 	
-	private static final Logger logger =  LoggerFactory.getLogger(App.class.getName());
+	private static DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+	private static final org.apache.logging.log4j.Logger logger =  LogManager.getLogger(App.class.getName());
 	public static final String CONFIG_NAME = "application.properties";
 	public static final int backlog = 10;
 
@@ -324,7 +327,7 @@ public class App extends JFrame{
 	
 		Utils.initConfig(file);
 		Utils.initRabbitMQ();	
-		logger.trace("Asterisk Callboard is  initialized: " + LocalDateTime.now());
+		
 	}
 
     public App() {
@@ -344,10 +347,10 @@ public class App extends JFrame{
 
 						} catch (AuthenticationFailedException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							logger.error("Error in Authentication,  time: " +  fmt.format(LocalDateTime.now()));
 						}
 					} catch (IOException e1) {
-						e1.printStackTrace();
+						logger.error("Error in IOException, code line 253  time: " +  fmt.format(LocalDateTime.now()));
 					}
 				});
 			}
@@ -407,9 +410,6 @@ public class App extends JFrame{
 			GraphicsDevice device =getGraphicsConfiguration().getDevice();
 		    boolean result = device.isFullScreenSupported();
 		    device.setFullScreenWindow(this); 
-		    
-		
-		
 			
 		} catch (Exception e) {
 			logger.error("Can't start callboard connection: " + e.getMessage());
@@ -431,12 +431,13 @@ public class App extends JFrame{
 						App app = new App(args[0]);
 						
 						app.setVisible(true);
+						logger.info("Asterisk Callboard is started at time:   " +  fmt.format(LocalDateTime.now()));
 					}else {
 						logger.error("Error! No configuration file provided!");
 					}
 
 				} catch (Exception ex) {
-					ex.printStackTrace();
+					logger.error("Error string Callboard, line code 438, time: "  + fmt.format(LocalDateTime.now()));
 				}
 				//app.handleAsterisk();
 

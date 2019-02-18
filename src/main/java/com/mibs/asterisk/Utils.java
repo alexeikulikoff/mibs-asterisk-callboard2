@@ -135,20 +135,20 @@ public class Utils {
 							}
 						}
 					} catch (SQLException e) {
-						e.printStackTrace();
+						logger.error("Error executing query Utils.class line 138 with message: " + e.getMessage());
 					}
 				} catch (SQLException e1) {
-					e1.printStackTrace();
+					logger.error("Error creating statement Utils.class line 141 with message: " + e1.getMessage());
 				}
 				finally{
 					try {
 						rs.close();
 					} catch (SQLException e) {
-						e.printStackTrace();
+						logger.error("Error closing  result set Utils.class line 147 with message: " + e.getMessage());
 					}
 				}
 		} catch (IOException | TimeoutException  e1) {
-			e1.printStackTrace();
+			logger.error("Error com.rabbitmq.client.Connection in Utils.class line 151 with message: " + e1.getMessage());
 		} 
 	}
 	public static String getRabbitmqHost() {

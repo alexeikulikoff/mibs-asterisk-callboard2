@@ -66,7 +66,7 @@ public class ActionQueueShow extends AbstractAction implements Action{
 			}
 			rs.close();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error("Error in getQueueContents " +  e.getMessage());
 			
 		}
 		return content;
