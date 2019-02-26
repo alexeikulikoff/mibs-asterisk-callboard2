@@ -419,9 +419,9 @@ public class App extends JFrame{
 			setMaximumSize(DimMax);
 			setExtendedState(MAXIMIZED_BOTH);
 
-			//GraphicsDevice device =getGraphicsConfiguration().getDevice();
-		   // boolean result = device.isFullScreenSupported();
-		   // device.setFullScreenWindow(this); 
+			GraphicsDevice device =getGraphicsConfiguration().getDevice();
+		    boolean result = device.isFullScreenSupported();
+		    device.setFullScreenWindow(this); 
 			
 		} catch (Exception e) {
 			logger.error("Can't start callboard connection: " + e.getMessage());
@@ -449,7 +449,7 @@ public class App extends JFrame{
 					}
 
 				} catch (Exception ex) {
-					logger.error("Error string Callboard, line code 438, time: "  + fmt.format(LocalDateTime.now()));
+					logger.error("Error staring Callboard, line code 452, time: "  + fmt.format(LocalDateTime.now()));
 				}
 				//app.handleAsterisk();
 
