@@ -46,7 +46,7 @@ public class ActionLogin extends AbstractAction implements Action{
 	}
 	@Override
 	public void doCommand(String queue) throws IOException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

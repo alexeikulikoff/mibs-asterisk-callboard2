@@ -55,12 +55,14 @@ import com.mibs.asterisk.ActionLogOff;
 import com.mibs.asterisk.ActionLogin;
 import com.mibs.asterisk.ActionQueueShow;
 import com.mibs.asterisk.AuthenticationFailedException;
+import com.mibs.asterisk.CallerAbandon;
 import com.mibs.asterisk.CurrentQueue;
 import com.mibs.asterisk.QueueContents;
 import com.mibs.asterisk.Utils;
 import com.mibs.asterisk.events.AgentCalledEvent;
 import com.mibs.asterisk.events.AsteriskEvent;
 import com.mibs.asterisk.events.BridgeEvent;
+import com.mibs.asterisk.events.QueueCallerAbandonEvent;
 import com.mibs.asterisk.events.QueueMemberAddedEvent;
 import com.mibs.asterisk.events.QueueMemberRemovedEvent;
 import com.mibs.asterisk.events.QueueMemberStatusEvent;
@@ -81,6 +83,9 @@ public class App extends JFrame{
 	private ExecutorService service = null;
 	private BufferedReader reader;
 	private AsteriskMessageListener asteriskMessageListener;
+	
+	public static CallerAbandon callerAbandon;
+	
 	
 	class PanelWrapper implements Wrapper{
 		private Map<String, BoardPanel> panels;
@@ -170,6 +175,8 @@ public class App extends JFrame{
 			panels.get(queue).changeAgentStatus(phone, status);
 		}
 	}
+	
+	
 	class AsteriskMessageListener {
 
 		private Map<String, Class<? extends AsteriskEvent>> registeredEventClasses;
@@ -181,6 +188,7 @@ public class App extends JFrame{
 			List<String> queues = new ArrayList<>();
 			QueueContents contents = null;
 			socket = new Socket(Utils.getAsteriskHost(), Utils.getAsteriskPort());
+			socket.setKeepAlive(true);
 			
 			Action action = new ActionLogin(socket, Utils.getAsterisUser(), Utils.getAsterisPassword(), null, null);
 			reader = action.getReader();
@@ -232,6 +240,7 @@ public class App extends JFrame{
 			registerEventClasses(QueueMemberRemovedEvent.class);
 			registerEventClasses(QueueMemberStatusEvent.class);
 			registerEventClasses(AgentCalledEvent.class);
+			registerEventClasses(QueueCallerAbandonEvent.class);
 		}
 
 		private void registerEventClasses(Class<? extends AsteriskEvent> clazz) {
@@ -336,6 +345,7 @@ public class App extends JFrame{
 	public App( String file ) {
 		super();
 		init(file);
+	
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent event) {
@@ -381,6 +391,8 @@ public class App extends JFrame{
 		try {
 			asteriskMessageListener = new AsteriskMessageListener();
 
+			callerAbandon = new CallerAbandon(socket);
+			
 			GroupLayout layout = new GroupLayout(getContentPane());
 			getContentPane().setLayout(layout);
 			layout.setAutoCreateGaps(true);
@@ -407,9 +419,9 @@ public class App extends JFrame{
 			setMaximumSize(DimMax);
 			setExtendedState(MAXIMIZED_BOTH);
 
-			GraphicsDevice device =getGraphicsConfiguration().getDevice();
-		    boolean result = device.isFullScreenSupported();
-		    device.setFullScreenWindow(this); 
+			//GraphicsDevice device =getGraphicsConfiguration().getDevice();
+		   // boolean result = device.isFullScreenSupported();
+		   // device.setFullScreenWindow(this); 
 			
 		} catch (Exception e) {
 			logger.error("Can't start callboard connection: " + e.getMessage());

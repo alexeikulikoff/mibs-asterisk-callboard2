@@ -1,6 +1,8 @@
 package com.mibs.asterisk.events;
 
 
+import com.mibs.asterisk.Utils;
+import com.mibs.callboard.App;
 import com.mibs.callboard.Wrapper;
 
 public class QueueMemberStatusEvent implements AsteriskEvent {
@@ -99,6 +101,10 @@ public class QueueMemberStatusEvent implements AsteriskEvent {
 	public void execute(Wrapper wrapper) {
 		int s = Integer.parseInt(status);
 		wrapper.changeAgentStatus(queue, membername, s);
+		if (s == 1) {
+			App.callerAbandon.doCallBack(stateinterface, Utils.getOriginateContext());
+		}
+		
 	}
 	 
 }

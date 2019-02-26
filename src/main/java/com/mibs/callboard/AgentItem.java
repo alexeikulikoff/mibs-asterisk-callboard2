@@ -13,6 +13,8 @@ import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.mibs.asterisk.Utils;
+
 public class AgentItem extends JPanel implements Comparable<AgentItem>{
 
 	private static final long serialVersionUID = 1L;
@@ -39,7 +41,7 @@ public class AgentItem extends JPanel implements Comparable<AgentItem>{
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		caption = new JLabel(ph + " " + this.name ) ;
-		caption.setFont(new Font("Serif", Font.PLAIN, 36));
+		caption.setFont(new Font("Serif", Font.PLAIN, Utils.getAgentFontSize()));
 		caption.setForeground(Color.white);
 		add(caption);
 		

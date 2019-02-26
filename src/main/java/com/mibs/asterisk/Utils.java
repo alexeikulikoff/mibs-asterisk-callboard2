@@ -35,6 +35,10 @@ public class Utils {
 	private static String asterisPassword;
 	private static String asteriskHost;
 	private static int 	  asteriskPort;
+	private static String originateContext;
+	private static String callback;
+	
+	private static int agentFontSize; 
 	
 	private static String redisHost;
 	private static String redisUser;
@@ -61,6 +65,9 @@ public class Utils {
 			asterisPassword = prop.getProperty("asterisk_password");
 			asteriskHost = prop.getProperty("asterisk_host");
 			asteriskPort = Integer.parseInt(prop.getProperty("asterisk_port"));
+			originateContext = prop.getProperty("originate_context");
+			callback 		= prop.getProperty("callback");
+			agentFontSize	= Integer.parseInt(prop.getProperty("agent_font_size"));
 			
 			rabbitmqHost = prop.getProperty("rabbitmq_host");
 			rabbitmqUsername = prop.getProperty("rabbitmq_username");
@@ -81,6 +88,10 @@ public class Utils {
 		}
 	}
     public static void publish(String  destcallerIdnum, String callerid) {
+    	
+    	if (destcallerIdnum.startsWith("sip/")) {
+    		destcallerIdnum = destcallerIdnum.replace("sip/", "");
+    	}
     	String queue = "SIP_" + destcallerIdnum;
     	
     	Jedis jedis = new Jedis(Utils.redisHost); 
@@ -177,6 +188,18 @@ public class Utils {
 
 	public static int getAsteriskPort() {
 		return asteriskPort;
+	}
+
+	public static String getOriginateContext() {
+		return originateContext;
+	}
+
+	public static String getCallback() {
+		return callback;
+	}
+
+	public static int getAgentFontSize() {
+		return agentFontSize;
 	}
 
 }

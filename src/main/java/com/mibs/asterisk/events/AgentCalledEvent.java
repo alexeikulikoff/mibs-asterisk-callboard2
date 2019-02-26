@@ -1,6 +1,7 @@
 package com.mibs.asterisk.events;
 
 import com.mibs.asterisk.Utils;
+import com.mibs.callboard.App;
 import com.mibs.callboard.Wrapper;
 
 public class AgentCalledEvent implements AsteriskEvent {
@@ -239,6 +240,10 @@ public class AgentCalledEvent implements AsteriskEvent {
 	}
 	@Override
 	public void execute(Wrapper wrapper) {
+		
+		App.callerAbandon.remove(callerIdnum, queue);
+		
+		if (App.callerAbandon.getSize() > 10) App.callerAbandon.cleaAll();
 		
 		Utils.publish(destcallerIdnum, callerIdnum);
 		
