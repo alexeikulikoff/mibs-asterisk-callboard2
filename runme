@@ -1,0 +1,3 @@
+java -jar /home/admin2/app/mibs-asterisk-callboard2/build/libs/asterisk-callboard.jar /home/admin2/app/mibs-asterisk-callboard2/src/main/resources/application.properties &
+
+
