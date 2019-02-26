@@ -44,7 +44,7 @@ then
 fi
 		
 
-copy_file "$SRC_CONFIG_YML" "$DST_CONFIG_YML"
+#copy_file "$SRC_CONFIG_YML" "$DST_CONFIG_YML"
 copy_file "$SRC_JAR" "$DST_JAR"
 
 
