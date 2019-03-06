@@ -34,40 +34,42 @@ public class ActionQueueShow extends AbstractAction implements Action{
 	}
 	
 	public QueueContents getQueueContents() throws IOException {
-		
+
 		QueueContents content = new QueueContents();
+		String sql = "select name from queues";
 		try (Connection connect = DriverManager.getConnection(Utils.dsURL(), Utils.dbuser, Utils.dbpassword);
-				Statement statement = connect.createStatement()) {
-			String sql = "select name from queues" ;
-			ResultSet rs = statement.executeQuery(sql);
+				Statement statement = connect.createStatement();
+				ResultSet rs = statement.executeQuery(sql)) {
+
 			while (rs.next()) {
 				String queue = rs.getString("name");
-				CurrentQueue currentQueue =  new CurrentQueue( queue ) ;
-				doCommand( queue );
+				CurrentQueue currentQueue = new CurrentQueue(queue);
+				doCommand(queue);
 				boolean memberFlag = false;
 				for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-					if (line.contains("Members") ){
+					
+					if (line.contains("Members")) {
 						memberFlag = true;
 					}
 					if (memberFlag) {
-						if (!line.contains("Members:") & !line.contains("No Members") & !line.contains("No Callers"))
-						{	
-						  Matcher m = pt.matcher(line);
-						  if (m.find()) currentQueue.addMember( m.group(0) );
-						}	
+						if (!line.contains("Members:") & !line.contains("No Members") & !line.contains("No Callers")) {
+							Matcher m = pt.matcher(line);
+							if (m.find())
+								currentQueue.addMember(m.group(0));
+						}
 					}
-					if (line.contains("Callers") & memberFlag){
+					if (line.contains("Callers") & memberFlag) {
 						memberFlag = false;
 						content.addQueueResponce(currentQueue);
 					}
-					if (line.contains("No Callers")) break;
+					if (line.contains("No Callers") | line.contains("Callers:")  ) break;
 				}
-				
+
 			}
-			rs.close();
+
 		} catch (Exception e) {
-			logger.error("Error in getQueueContents " +  e.getMessage());
-			
+			logger.error("Error in getQueueContents " + e.getMessage());
+
 		}
 		return content;
 	}

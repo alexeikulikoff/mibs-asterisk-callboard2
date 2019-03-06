@@ -182,17 +182,16 @@ public class App extends JFrame{
 		private Map<String, Class<? extends AsteriskEvent>> registeredEventClasses;
 
 		public AsteriskMessageListener() throws UnknownHostException, IOException, AuthenticationFailedException {
+			
+			
 			registeredEventClasses = new HashMap<>();
 			registerEventClasses();
-
 			List<String> queues = new ArrayList<>();
 			QueueContents contents = null;
 			socket = new Socket(Utils.getAsteriskHost(), Utils.getAsteriskPort());
 			socket.setKeepAlive(true);
-			
 			Action action = new ActionLogin(socket, Utils.getAsterisUser(), Utils.getAsterisPassword(), null, null);
 			reader = action.getReader();
-
 			Optional<Action> optQueueShow = action.getResponce();
 			if (!optQueueShow.isPresent()) {
 			
@@ -419,11 +418,13 @@ public class App extends JFrame{
 			setMaximumSize(DimMax);
 			setExtendedState(MAXIMIZED_BOTH);
 
+		
 			GraphicsDevice device =getGraphicsConfiguration().getDevice();
 		    boolean result = device.isFullScreenSupported();
 		    device.setFullScreenWindow(this); 
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("Can't start callboard connection: " + e.getMessage());
 			System.exit(0);
 
