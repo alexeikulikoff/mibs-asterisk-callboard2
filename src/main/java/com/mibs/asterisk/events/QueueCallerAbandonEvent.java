@@ -197,6 +197,7 @@ public class QueueCallerAbandonEvent implements AsteriskEvent {
 	public void execute(Wrapper wrapper) {
 		try {
 			App.callerAbandon.add(new AbandonNumber(this.calleridnum, this.queue));
+			logger.trace("Add Phone number: " + this.calleridnum + " to call back.");
 		} catch (AbandonNumberException e) {
 			logger.trace("Phone number: " + this.calleridnum + " has wrong format to be called back.");
 		}
