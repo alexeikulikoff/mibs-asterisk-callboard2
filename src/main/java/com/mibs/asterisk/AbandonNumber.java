@@ -16,8 +16,11 @@ public class AbandonNumber implements Comparable<AbandonNumber>{
 	}
 	public AbandonNumber(String number, String queue) throws AbandonNumberException {
 		super();
-		if (number.length() != 11) throw new AbandonNumberException("Error! Wrong pnone number length.");
-		if (!number.startsWith("89")) throw new AbandonNumberException("Error! Wrong pnone number format");
+		if (number.length() != 11) throw new AbandonNumberException("Wrong pnone number length.");
+		if (!number.startsWith("89")) throw new AbandonNumberException("Wrong pnone number format");
+		if (queue.contains("polyclinic")) {
+			throw new AbandonNumberException("Skip polyclinnic queue");
+		}
 		this.number = number;
 		this.queue = queue;
 		epoch = LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
