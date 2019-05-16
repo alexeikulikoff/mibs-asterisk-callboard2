@@ -160,7 +160,11 @@ public class App extends JFrame{
 			
 				if (oP.isPresent() && oQ.isPresent()) {
 					Optional<String> aA = getAgentId(oQ.get(),oP.get());
-					name = aA.get();
+					
+					if (aA.isPresent()) {
+						name = aA.get();
+					}
+					
 				}
 				panels.get(queue).addAgent(phone, name);; 
 			}
